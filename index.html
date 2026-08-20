@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  KENNET ELECTRICAL — single-file static site (GitHub Pages ready)
+  ----------------------------------------------------------------------------
+  BUSINESS NAME — shortlist considered:
+    1. Kennet Electrical        — River Kennet runs through Reading; local,
+                                  short, memorable, unmistakably area-relevant.
+    2. Thames Valley Electrical — broader regional reach, sounds established.
+    3. Reading Bright Sparks    — friendly, uses trade slang ("sparks").
+    4. Loddon Electrical        — another local Reading river; clean, distinct.
+    5. Forbury Electrical       — after Forbury Gardens, Reading; rooted feel.
+
+  CHOSEN: "Kennet Electrical".
+  REASONING: It is short and easy to say/remember, locally rooted to Reading
+  via the River Kennet (signals "we're your local firm") without being a
+  generic "Reading Electrician" keyword string, and it pairs cleanly with a
+  confident logo lockup. Used consistently in the <title>, header, and footer.
+
+  DEPLOY: push this single index.html to a GitHub repo, enable Pages
+  (Settings > Pages > deploy from main / root). No build step. CSS + JS inline
+  so nothing can fail to link.
+
+  TODO before going live:
+    - Replace the placeholder email in the JS (BUSINESS_EMAIL) with a real one.
+    - Swap Unsplash placeholder photos for real job photos when available.
+  ============================================================================
+-->
+<html lang="en-GB" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kennet Electrical — Electrician in Reading &amp; Surrounding Areas</title>
+  <meta name="description" content="Reliable electrician in Reading, UK. Small and medium electrical jobs done right. Call 07774 386 572 for a free quote.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Archivo+Black&display=swap" rel="stylesheet">
+  <style>
+  /* ===== Design tokens ===== */
+  :root{
+    --ink:#0d0f14; --ink-2:#161a22;
+    --amber:#ffb400; --amber-bright:#ffce3a; --wire:#25e6c0;
+    --paper:#f5f6f8; --paper-2:#ffffff; --muted:#6b7280;
+    --line:rgba(255,255,255,.12); --radius:14px;
+    --shadow:0 18px 40px -18px rgba(0,0,0,.55); --maxw:1120px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Archivo',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{color:inherit}
+  h1,h2,h3{font-family:'Archivo Black',Archivo,sans-serif;line-height:1.05;letter-spacing:-.01em;margin:0}
+  .container{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 20px}
+
+  /* ===== Buttons ===== */
+  .btn{--pad:14px 22px;display:inline-flex;align-items:center;gap:9px;justify-content:center;padding:var(--pad);font-weight:700;font-size:1rem;text-decoration:none;border:none;border-radius:999px;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+  .btn:focus-visible{outline:3px solid var(--wire);outline-offset:3px}
+  .btn-lg{--pad:17px 30px;font-size:1.08rem}
+  .btn-block{width:100%}
+  .btn-primary{background:var(--amber);color:var(--ink)}
+  .btn-primary:hover{background:var(--amber-bright);transform:translateY(-2px);box-shadow:0 12px 24px -10px rgba(255,180,0,.7)}
+  .btn-dark{background:var(--ink);color:#fff}
+  .btn-dark:hover{background:var(--ink-2);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.35)}
+  .btn-ghost:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-2px)}
+
+  /* ===== Header ===== */
+  .site-header{position:sticky;top:0;z-index:50;background:rgba(13,15,20,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+  .logo-mark{color:var(--amber);display:grid;place-items:center}
+  .logo-text{font-family:'Archivo Black';font-size:1.05rem;letter-spacing:-.02em;line-height:1}
+  .logo-text em{display:block;font-style:normal;font-family:'Archivo';font-weight:600;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--amber)}
+  .main-nav{display:flex;align-items:center}
+  .nav-list{display:flex;align-items:center;gap:26px;list-style:none;margin:0;padding:0}
+  .nav-list a{color:#e7e9ee;text-decoration:none;font-weight:600;font-size:.95rem}
+  .nav-list a:hover{color:var(--amber)}
+  .nav-call{background:var(--amber);color:var(--ink)!important;padding:9px 16px;border-radius:999px}
+  .nav-call:hover{color:var(--ink)!important;background:var(--amber-bright)}
+  .nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px}
+  .nav-toggle span{width:26px;height:3px;background:#fff;border-radius:2px;transition:.25s}
+
+  /* ===== Hero ===== */
+  .hero{position:relative;overflow:hidden;background:radial-gradient(1200px 500px at 82% -10%,rgba(255,180,0,.18),transparent 60%),linear-gradient(180deg,var(--ink),var(--ink-2));color:#fff;padding:90px 0 100px}
+  .hero-inner{position:relative;z-index:2;max-width:760px}
+  .eyebrow{display:inline-block;margin:0 0 18px;padding:6px 14px;border:1px solid rgba(255,255,255,.22);border-radius:999px;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--amber)}
+  .hero h1{font-size:clamp(2.6rem,7vw,5rem)}
+  .hero h1 .hl{color:var(--amber);position:relative}
+  .hero h1 .hl::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.14em;background:var(--wire);opacity:.7;border-radius:2px}
+  .hero-sub{font-size:1.15rem;color:#c7ccd6;margin:22px 0 30px;max-width:560px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px}
+  .trust-strip{display:flex;flex-wrap:wrap;gap:10px 26px;list-style:none;margin:40px 0 0;padding:0;color:#aeb4c0;font-weight:600;font-size:.92rem}
+  .trust-strip li{position:relative;padding-left:22px}
+  .trust-strip li::before{content:"⚡";position:absolute;left:0;color:var(--amber)}
+
+  /* ===== Section shared ===== */
+  section{padding:78px 0}
+  .section-eyebrow{margin:0 0 10px;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:#b1730a}
+  .section-eyebrow.light{color:var(--ink);opacity:.7}
+  .section-title{font-size:clamp(1.9rem,4.5vw,3rem)}
+  .section-title.light{color:var(--ink)}
+  .section-lead{color:var(--muted);font-size:1.1rem;max-width:620px;margin:14px 0 40px}
+
+  /* ===== Services ===== */
+  .service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .service-card{background:var(--paper-2);border:1px solid #e7e9ef;border-radius:var(--radius);padding:28px 24px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s}
+  .service-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--amber)}
+  .service-icon{font-size:1.9rem;line-height:1;margin-bottom:14px}
+  .service-card h3{font-family:'Archivo';font-weight:700;font-size:1.2rem;margin-bottom:8px}
+  .service-card p{margin:0;color:var(--muted);font-size:.98rem}
+
+  /* ===== Gallery ===== */
+  .work{background:#eef0f4}
+  .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .gallery-item{position:relative;margin:0;border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 20px -12px rgba(0,0,0,.35)}
+  .gallery-item img{width:100%;height:230px;object-fit:cover;transition:transform .5s ease}
+  .gallery-item:hover img{transform:scale(1.07)}
+  .gallery-item figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 16px 14px;color:#fff;font-weight:700;font-size:.95rem;background:linear-gradient(transparent,rgba(13,15,20,.85))}
+
+  /* ===== Quote ===== */
+  .quote{background:linear-gradient(120deg,var(--amber),var(--amber-bright))}
+  .quote-inner{display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap}
+  .quote-copy{max-width:560px}
+  .quote-lead{color:#3d2c00;font-size:1.12rem;margin:14px 0 0;font-weight:500}
+  .quote-actions{display:flex;flex-direction:column;gap:14px;min-width:270px}
+
+  /* ===== Contact ===== */
+  .contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+  .contact-list{list-style:none;margin:8px 0 0;padding:0}
+  .contact-list li{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid #e4e6ec;align-items:baseline}
+  .ci-label{min-width:64px;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+  .ci-value{font-size:1.12rem;font-weight:700;text-decoration:none}
+  a.ci-value:hover{color:#b1730a}
+  .contact-form-wrap{background:var(--ink);border-radius:18px;padding:30px;color:#fff;box-shadow:var(--shadow)}
+  .form-intro{margin:0 0 18px;font-weight:700}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:.85rem;font-weight:700;margin-bottom:6px;color:#cbd0da}
+  .field input,.field textarea{width:100%;padding:12px 14px;border-radius:10px;border:1px solid #2c3240;background:#0f131b;color:#fff;font:inherit;resize:vertical}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--amber)}
+  .form-note{margin:14px 0 0;font-size:.92rem;color:var(--wire);min-height:1.2em}
+
+  /* ===== Footer ===== */
+  .site-footer{background:var(--ink);color:#c7ccd6;padding:44px 0}
+  .footer-inner{display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center}
+  .footer-brand{display:flex;align-items:center;gap:10px;color:#fff;font-family:'Archivo Black';font-size:1.05rem}
+  .footer-brand .logo-mark{color:var(--amber)}
+  .footer-meta a{color:var(--amber);text-decoration:none;font-weight:700}
+  .footer-copy{font-size:.85rem;color:#7c8390;margin:0}
+
+  /* ===== Sticky mobile call ===== */
+  .sticky-call{display:none;position:fixed;left:16px;right:16px;bottom:16px;z-index:60;align-items:center;justify-content:center;gap:10px;background:var(--amber);color:var(--ink);font-weight:700;padding:15px;border-radius:999px;text-decoration:none;box-shadow:0 12px 30px -8px rgba(0,0,0,.5)}
+
+  /* ===== Responsive ===== */
+  @media (max-width:1000px){.gallery{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:900px){.service-grid{grid-template-columns:repeat(2,1fr)}.contact-inner{grid-template-columns:1fr;gap:32px}}
+  @media (max-width:760px){
+    .nav-toggle{display:flex}
+    .nav-list{position:absolute;top:66px;left:0;right:0;flex-direction:column;gap:0;align-items:stretch;background:var(--ink);border-bottom:1px solid var(--line);max-height:0;overflow:hidden;transition:max-height .3s ease}
+    .nav-list.open{max-height:360px}
+    .nav-list li{border-top:1px solid var(--line)}
+    .nav-list a{display:block;padding:15px 20px}
+    .nav-call{border-radius:0;margin:0;text-align:center}
+    .gallery{grid-template-columns:repeat(2,1fr)}
+    .quote-actions{width:100%;min-width:0}
+    .sticky-call{display:flex}
+    section{padding:58px 0}
+    .hero{padding:64px 0 76px}
+    body{padding-bottom:78px}
+  }
+  @media (max-width:520px){.service-grid{grid-template-columns:1fr}.gallery{grid-template-columns:1fr}.gallery-item img{height:220px}}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}.gallery-item:hover img{transform:none}}
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="#top" class="logo" aria-label="Kennet Electrical home">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="currentColor"/></svg>
+        </span>
+        <span class="logo-text">Kennet<em>Electrical</em></span>
+      </a>
+      <nav class="main-nav" aria-label="Primary">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-list" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+        <ul id="nav-list" class="nav-list">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#work">Our work</a></li>
+          <li><a href="#quote">Free quote</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="tel:07774386572" class="nav-call">07774&nbsp;386&nbsp;572</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="container hero-inner">
+        <p class="eyebrow">Reading &amp; surrounding areas</p>
+        <h1 id="hero-heading">Electrics done<br><span class="hl">right</span>, first time.</h1>
+        <p class="hero-sub">Your local Reading electrician for small and medium jobs — from a dodgy socket to a full circuit. Fully insured, tidy work, honest prices.</p>
+        <div class="hero-actions">
+          <a href="#quote" class="btn btn-primary">Get a free quote</a>
+          <a href="tel:07774386572" class="btn btn-ghost">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1.1l-2.2 2.1Z"/></svg>
+            07774 386 572
+          </a>
+        </div>
+        <ul class="trust-strip">
+          <li>Fully insured</li>
+          <li>Free quotes</li>
+          <li>No call-out con</li>
+          <li>Tidy, on-time</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services" id="services" aria-labelledby="services-heading">
+      <div class="container">
+        <p class="section-eyebrow">What we do</p>
+        <h2 id="services-heading" class="section-title">Small &amp; medium electrical jobs</h2>
+        <p class="section-lead">No job too small. If it plugs in, switches on or trips out, we can help.</p>
+        <div class="service-grid">
+          <article class="service-card"><div class="service-icon" aria-hidden="true">🔌</div><h3>Sockets &amp; switches</h3><p>New sockets, USB points, faulty switches, extra outlets where you actually need them.</p></article>
+          <article class="service-card"><div class="service-icon" aria-hidden="true">💡</div><h3>Lighting</h3><p>Indoor &amp; outdoor lights, downlights, dimmers, security lighting and LED upgrades.</p></article>
+          <article class="service-card"><div class="service-icon" aria-hidden="true">⚡</div><h3>Fuse boards &amp; circuits</h3><p>Consumer unit swaps, new circuits, RCD protection and fault-finding on tripping boards.</p></article>
+          <article class="service-card"><div class="service-icon" aria-hidden="true">🔍</div><h3>Fault finding &amp; repairs</h3><p>Something not working? We track down the fault fast and fix it properly.</p></article>
+          <article class="service-card"><div class="service-icon" aria-hidden="true">🏠</div><h3>Home upgrades</h3><p>Kitchen &amp; bathroom electrics, appliance connections, garden and shed power.</p></article>
+          <article class="service-card"><div class="service-icon" aria-hidden="true">🔒</div><h3>Safety checks</h3><p>Electrical inspections, testing and small remedial works to keep your home safe.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="work" id="work" aria-labelledby="work-heading">
+      <div class="container">
+        <p class="section-eyebrow">Recent work</p>
+        <h2 id="work-heading" class="section-title">A look at the job</h2>
+        <p class="section-lead">Clean installs and neat finishes — here's the kind of work you can expect.</p>
+        <div class="gallery">
+          <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Electrician wiring a consumer unit fuse board with coloured cables"><figcaption>Consumer unit rewire</figcaption></figure>
+          <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1558449028-b53a39d100fc?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Neatly wired electrical distribution board with organised cabling"><figcaption>Tidy board work</figcaption></figure>
+          <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1565608087341-404b25492fee?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Recessed ceiling downlights installed in a modern room"><figcaption>Downlight installation</figcaption></figure>
+          <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1607925555642-9585a45b9a1f?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Electrician using a multimeter to test an electrical circuit"><figcaption>Fault finding &amp; testing</figcaption></figure>
+          <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Hands installing a white electrical wall socket outlet"><figcaption>New socket fitted</figcaption></figure>
+          <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Electrician in workwear working on domestic wiring with tools"><figcaption>On-site, on time</figcaption></figure>
+          <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Modern home interior with newly installed lighting"><figcaption>Lighting upgrade</figcaption></figure>
+          <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=800&q=70" loading="lazy" alt="Electrical tools and cable coils laid out on a work surface"><figcaption>Kitted out &amp; ready</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quote -->
+    <section class="quote" id="quote" aria-labelledby="quote-heading">
+      <div class="container quote-inner">
+        <div class="quote-copy">
+          <p class="section-eyebrow light">No obligation</p>
+          <h2 id="quote-heading" class="section-title light">Get your free quote</h2>
+          <p class="quote-lead">Tap the button and it'll open a ready-to-send text. Add a quick line about the job and we'll come back to you with a price. Prefer to talk? Give us a ring.</p>
+        </div>
+        <div class="quote-actions">
+          <a class="btn btn-primary btn-lg" href="sms:07774386572?&body=Hi%2C%20I'd%20like%20a%20free%20quote%20for%20an%20electrical%20job.">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H8l-4 4V6c0-1.1.9-2 2-2Z"/></svg>
+            Text us for a quote
+          </a>
+          <a class="btn btn-dark btn-lg" href="tel:07774386572">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1.1l-2.2 2.1Z"/></svg>
+            Call 07774 386 572
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact" aria-labelledby="contact-heading">
+      <div class="container contact-inner">
+        <div class="contact-info">
+          <p class="section-eyebrow">Get in touch</p>
+          <h2 id="contact-heading" class="section-title">Contact us</h2>
+          <p class="section-lead">Reading born, Reading based. We cover Reading and the surrounding areas.</p>
+          <ul class="contact-list">
+            <li><span class="ci-label">Phone</span><a href="tel:07774386572" class="ci-value">07774 386 572</a></li>
+            <li><span class="ci-label">Text</span><a href="sms:07774386572?&body=Hi%2C%20I'd%20like%20a%20free%20quote%20for%20an%20electrical%20job." class="ci-value">Send a text</a></li>
+            <li><span class="ci-label">Area</span><span class="ci-value">Reading &amp; surrounding areas, Berkshire</span></li>
+            <li><span class="ci-label">Hours</span><span class="ci-value">Mon–Sat, 8am–6pm</span></li>
+          </ul>
+        </div>
+        <div class="contact-form-wrap">
+          <form class="contact-form" id="contact-form" novalidate>
+            <p class="form-intro">Send a message and we'll get back to you.</p>
+            <div class="field"><label for="cf-name">Name</label><input type="text" id="cf-name" name="name" autocomplete="name" required></div>
+            <div class="field"><label for="cf-contact">Email or phone</label><input type="text" id="cf-contact" name="contact" autocomplete="email" required></div>
+            <div class="field"><label for="cf-message">What do you need?</label><textarea id="cf-message" name="message" rows="4" required></textarea></div>
+            <button type="submit" class="btn btn-primary btn-block">Send message</button>
+            <p class="form-note" id="form-note" role="status"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="currentColor"/></svg></span>
+        <span>Kennet Electrical</span>
+      </div>
+      <p class="footer-meta">Electrician in Reading &amp; surrounding areas · <a href="tel:07774386572">07774 386 572</a></p>
+      <p class="footer-copy">&copy; <span id="year"></span> Kennet Electrical. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Sticky mobile call -->
+  <a href="tel:07774386572" class="sticky-call" aria-label="Call Kennet Electrical">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1.1l-2.2 2.1Z"/></svg>
+    <span>Call now</span>
+  </a>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile nav toggle
+    const toggle = document.querySelector('.nav-toggle');
+    const navList = document.getElementById('nav-list');
+    toggle.addEventListener('click', () => {
+      const open = navList.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+    navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      navList.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }));
+
+    // Contact form -> opens email client (static site, no backend)
+    const form = document.getElementById('contact-form');
+    const note = document.getElementById('form-note');
+    const BUSINESS_EMAIL = 'hello@kennetelectrical.co.uk'; // <-- change to your real inbox
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = form.name.value.trim();
+      const contact = form.contact.value.trim();
+      const message = form.message.value.trim();
+      if (!name || !contact || !message){ note.textContent = 'Please fill in all fields before sending.'; return; }
+      const subject = `Quote enquiry from ${name}`;
+      const body = `Name: ${name}\nEmail/phone: ${contact}\n\nMessage:\n${message}`;
+      window.location.href = `mailto:${BUSINESS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      note.textContent = 'Opening your email app…';
+      form.reset();
+    });
+  </script>
+</body>
+</html>
